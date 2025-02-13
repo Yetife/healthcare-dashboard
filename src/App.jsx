@@ -27,7 +27,7 @@ const App = () => {
     return (
         // <div className="p-6 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 min-h-screen">
         <div className="p-6 bg-blue-200 min-h-screen">
-            <h1 className="text-3xl font-bold text-center mb-6">Healthcare Appointment Dashboard</h1>
+            <h1 className="md:text-3xl text-xl font-bold text-center mb-6">Healthcare Appointment Dashboard</h1>
             <div className="bg-white p-6 rounded-lg shadow-lg max-w-4xl mx-auto">
                 <FilterBar />
                 <AppointmentList appointments={paginatedAppointments} />
