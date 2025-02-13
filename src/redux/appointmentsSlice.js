@@ -1,16 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-// Mock data
-// const mockAppointments = [
-//     { id: 1, patient_name: "John Doe", doctor_name: "Dr. Smith", date_time: "2025-02-10", clinic_location: "City Clinic" },
-//     { id: 2, patient_name: "Jane Doe", doctor_name: "Dr. Brown", date_time: "2025-02-12", clinic_location: "Metro Hospital" },
-//     { id: 3, patient_name: "Alice Johnson", doctor_name: "Dr. Williams", date_time: "2025-02-15", clinic_location: "Downtown Medical Center" }
-// ];
-//
-// export const fetchAppointments = createAsyncThunk("appointments/fetch", async () => {
-//     return new Promise((resolve) => setTimeout(() => resolve(mockAppointments), 1000));
-// });
-
+// Mock data with 20 appointments and real patient names
 const patientNames = [
     "John Doe", "Jane Smith", "Alice Johnson", "Robert Brown", "Emily Davis",
     "Michael Wilson", "Sophia Martinez", "Daniel Anderson", "Olivia Thomas", "James White",
@@ -24,6 +14,15 @@ const clinicNames = [
     "Summit Medical", "Grand Oak Hospital", "Cedar Park Clinic", "Blue Ridge Health", "Golden Valley Care",
     "Silver Pine Medical", "Horizon Health Center", "Crystal Springs Clinic", "Bright Horizon Medical", "Willow Creek Health"
 ];
+
+const formatTime = (dateTime) => {
+    const date = new Date(dateTime);
+    let hours = date.getHours();
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const amPm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12 || 12; // Convert 24-hour to 12-hour format
+    return `${hours}:${minutes} ${amPm}`;
+};
 
 const mockAppointments = patientNames.map((name, i) => ({
     id: i + 1,
@@ -39,12 +38,7 @@ export const fetchAppointments = createAsyncThunk("appointments/fetch", async ()
 
 const appointmentsSlice = createSlice({
     name: "appointments",
-    initialState: { list: [],
-        selected: null,
-        filters: { doctor: "", date: "" },
-        status: "idle",
-        error: null
-    },
+    initialState: { list: [], selected: null, filters: { doctor: "", date: "" }, status: "idle", error: null },
     reducers: {
         setFilters: (state, action) => { state.filters = action.payload; },
         selectAppointment: (state, action) => { state.selected = action.payload; },
