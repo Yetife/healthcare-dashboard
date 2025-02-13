@@ -15,22 +15,21 @@ const clinicNames = [
     "Silver Pine Medical", "Horizon Health Center", "Crystal Springs Clinic", "Bright Horizon Medical", "Willow Creek Health"
 ];
 
-const formatTime = (dateTime) => {
-    const date = new Date(dateTime);
-    let hours = date.getHours();
-    const minutes = date.getMinutes().toString().padStart(2, '0');
-    const amPm = hours >= 12 ? 'PM' : 'AM';
-    hours = hours % 12 || 12; // Convert 24-hour to 12-hour format
-    return `${hours}:${minutes} ${amPm}`;
-};
 
-const mockAppointments = patientNames.map((name, i) => ({
-    id: i + 1,
-    patient_name: name,
-    doctor_name: `Dr. ${['Smith', 'Brown', 'Williams', 'Jones', 'Davis'][i % 5]}`,
-    date_time: `2025-02-${(i % 28) + 1}T${(i % 24).toString().padStart(2, '0')}:00`,
-    clinic_location: clinicNames[i],
-}));
+const mockAppointments = patientNames.map((name, i) => {
+    const day = String((i % 28) + 1).padStart(2, "0"); // Ensure two-digit day
+    const hour = String(i % 24).padStart(2, "0"); // Ensure two-digit hour
+    const dateTime = `2025-02-${day}T${hour}:00:00`; // Correct ISO format
+
+    return {
+        id: i + 1,
+        patient_name: name,
+        doctor_name: `Dr. ${['Smith', 'Brown', 'Williams', 'Jones', 'Davis'][i % 5]}`,
+        date_time: dateTime, // Now in proper format
+        clinic_location: clinicNames[i],
+    };
+});
+
 
 export const fetchAppointments = createAsyncThunk("appointments/fetch", async () => {
     return new Promise((resolve) => setTimeout(() => resolve(mockAppointments), 1000));

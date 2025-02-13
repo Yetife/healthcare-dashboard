@@ -12,7 +12,7 @@ const FilterBar = () => {
     return (
         <div className="flex md:flex-row flex-col gap-4 p-4">
             <div>
-                <p className="pb-2 text-xl">Filter by doctor</p>
+                <p className="pb-2 md:text-xl text-base">Filter by doctor</p>
                 <input
                     type="text"
                     name="doctor"
@@ -24,7 +24,7 @@ const FilterBar = () => {
             </div>
 
             <div className="md:w-4/12 w-full">
-                <p className="pb-2 text-xl">Filter by date</p>
+                <p className="pb-2  md:text-xl text-base">Filter by date</p>
                 <input
                     type="date"
                     name="date"

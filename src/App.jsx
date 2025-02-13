@@ -4,6 +4,7 @@ import {fetchAppointments} from "./redux/appointmentsSlice.js";
 import FilterBar from "./components/FilterBar.jsx";
 import AppointmentList from "./components/AppointmentList.jsx";
 import Pagination from "./components/Pagination.jsx";
+import {formatDate} from "./utils/timeUtils.js";
 
 const App = () => {
     const dispatch = useDispatch();
@@ -16,10 +17,16 @@ const App = () => {
     useEffect(() => { if (status === "idle") dispatch(fetchAppointments()); }, [status, dispatch]);
 
     const totalPages = Math.ceil(appointments.length / itemsPerPage);
+    // const filteredAppointments = appointments.filter((appointment) => {
+    //     return (
+    //         (!filters.doctor || appointment.doctor_name.toLowerCase().includes(filters.doctor.toLowerCase())) &&
+    //         (!filters.date || appointment.date_time.startsWith(filters.date))
+    //     );
+    // });
     const filteredAppointments = appointments.filter((appointment) => {
         return (
             (!filters.doctor || appointment.doctor_name.toLowerCase().includes(filters.doctor.toLowerCase())) &&
-            (!filters.date || appointment.date_time.startsWith(filters.date))
+            (!filters.date || formatDate(appointment.date_time) === filters.date)
         );
     });
     const paginatedAppointments = filteredAppointments.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
